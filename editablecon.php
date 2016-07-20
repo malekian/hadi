@@ -16,7 +16,6 @@ $connect = mysql_connect("$db_host", "$db_user", "$db_pass") or die("could not c
 mysql_select_db("realestate",$connect) or die("could not connect to the database");
 $check = mysql_fetch_array(mysql_query("SELECT * FROM `signup` WHERE `salt`='$saltt'"));
 $username=$check['username'];
-echo"$username";
 include "algor.php";
 if ($logged==true){
 	?>
