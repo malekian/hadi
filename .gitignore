@@ -1,0 +1,11 @@
+# First, ignore everything 
+* 
+
+# Don't ignore this file 
+!.gitignore 
+
+# Now, whitelist any files we want 
+!signup.php 
+!login.php 
+!algor.php 
+!editablecon.php
