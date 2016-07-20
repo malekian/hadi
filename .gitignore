@@ -1,6 +1,9 @@
 # First, ignore everything 
 * 
 
+# Don't ignore readme
+!README.md
+
 # Don't ignore this file 
 !.gitignore 
 
