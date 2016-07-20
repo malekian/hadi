@@ -5,7 +5,10 @@
 !README.md
 
 # Don't ignore this file 
-!.gitignore 
+!.gitignore
+
+# Don't ignore auto-code updater
+!"Update code.bat"
 
 # Now, whitelist any files we want 
 !signup.php 
