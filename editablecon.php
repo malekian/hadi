@@ -36,7 +36,7 @@ if ($logged==true){
 <?php
 }	
 else {
-	die("That username does not exist!  <a href='login.php'>&larr;Back</a>");
+header("Location: login.php");
 }
 ?>
 <?php

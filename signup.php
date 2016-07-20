@@ -12,6 +12,7 @@
 </form>
 <!--checkconnection-->
 <?php
+error_reporting(0);
 $db_host="localhost";
 $db_user="root";
 $db_pass="";
