@@ -1,6 +1,7 @@
 ﻿<!doctype html>
 <html>
 <head>
+<script src="//code.jquery.com/jquery-3.1.0.min.js"></script>
 </head>
 <body>
 <!--check login connection-->
@@ -74,7 +75,9 @@ if(mysqli_stmt_execute($stmt))
     }
 
     /* close statement */
-	echo "New record has id: " . mysqli_insert_id($connect);
+	$id = mysqli_insert_id($connect);
+	echo "New record has id: " . $id;
+	setcookie("id", $value);
     mysqli_stmt_close($stmt);
 }	
 ?>
