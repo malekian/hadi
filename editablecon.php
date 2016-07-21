@@ -91,7 +91,6 @@ $db_host="localhost";
 $db_user="root";
 $db_pass="";
 $db_name="realestate";
-$db_table="advertisement";
 $connect = mysqli_connect("$db_host", "$db_user", "$db_pass", "$db_name");
 mysqli_query($connect,"SET NAMES 'utf8'");
 mysqli_query($connect,"SET character_set_connection='utf8'");
@@ -105,9 +104,23 @@ $name = !empty($_POST['name']) ? $_POST['name'] : '';
 $phone = !empty($_POST['phone']) ? $_POST['phone'] : '';
 
 if(isset($_POST['submit'])){
-if ($stmt = mysqli_prepare($connect, "INSERT INTO $db_table VALUES ('', ?, ?, ?, ?, ? ,?)"))
+if ($stmt = mysqli_prepare($connect, "INSERT INTO advertisement VALUES ('', ?, ?, ?, ?, ? ,?)"))
 mysqli_stmt_bind_param($stmt, "ssssss",
 $apartmentadress,$case,$price,$name,$phone,$username);
+if(mysqli_stmt_execute($stmt))
+    {
+			$id = mysqli_insert_id($connect);
+	echo "New record has id: " . $id;
+
+    }
+    else
+    {
+        echo "Error occurred: " . mysqli_error($connect);
+    }
+/* second table  */
+if ($stmt = mysqli_prepare($connect, "INSERT INTO post VALUES (?, ?)"))
+mysqli_stmt_bind_param($stmt, "ss",
+$username,$id);
 if(mysqli_stmt_execute($stmt))
     {
 			$id = mysqli_insert_id($connect);
@@ -119,14 +132,9 @@ if(mysqli_stmt_execute($stmt))
     {
         echo "Error occurred: " . mysqli_error($connect);
     }
-
     /* close statement */
 
-	
-	echo "<script>" .
-		"setCookie('post_' + " . $id . ", form_str, 99999);" .
-		"</script>"
-	;
+
 	
     mysqli_stmt_close($stmt);
 }	
