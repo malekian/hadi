@@ -47,7 +47,8 @@ if($_POST['login']){
 		}
 }	
 if($_POST['logout']){
-	setcookie("c_salt",$salt,time()-24*60*60,"/");
+	setcookie("c_salt","",time()-24*60*60,"/");
+	setcookie("c_user","",time()-24*60*60,"/");
 	die("you are logged out");
 }
 $saltt=$_COOKIE['c_salt'];
