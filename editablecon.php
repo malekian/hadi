@@ -110,8 +110,10 @@ mysqli_stmt_bind_param($stmt, "ssssss",
 $apartmentadress,$case,$price,$name,$phone,$username);
 if(mysqli_stmt_execute($stmt))
     {
-		$alert='<p>Information was sent</p>';
-        echo "<font style ='font:14px/21px Arial,tahoma,sans-serif;color:red' >$alert</font>";
+			$id = mysqli_insert_id($connect);
+	echo "New record has id: " . $id;
+		header("Location: submitmassage.php");
+
     }
     else
     {
@@ -119,8 +121,7 @@ if(mysqli_stmt_execute($stmt))
     }
 
     /* close statement */
-	$id = mysqli_insert_id($connect);
-	echo "New record has id: " . $id;
+
 	
 	echo "<script>" .
 		"setCookie('post_' + " . $id . ", form_str, 99999);" .
