@@ -9,7 +9,7 @@
   password:<br>
   <input  type="password" name="password"></br>
   <p><input name="login" type="submit" id="submit" value="Login" /></p>
-<h4 align="left">  click here to <a href="logout.php">LogOut</a> </h4>
+  	<input name="logout" type="submit"  value="Logout" />
   No account?<a href="signup.php">sign up</a>
 </form>
 <!--checkconnection-->
@@ -25,6 +25,7 @@ mysql_select_db("realestate",$connect) or die("could not connect to the database
 ?>
 <!--insert data to database-->
 <?php
+
 if($_POST['login']){
 	if($_POST['username'] && $_POST['password']){
        $username=mysql_real_escape_string($_POST['username']);
@@ -41,13 +42,21 @@ if($_POST['login']){
 		setcookie("c_salt",$salt,time()+24*60*60,"/");
 		$userID=$user['id'];
 		mysql_query("UPDATE `signup` SET `salt`='$salt' WHERE `id`='$userID'");
-		die("You are now logged in as $username");
+		echo"you are logged in";
+		echo"<br>";
 		}
 }	
+if($_POST['logout']){
+	setcookie("c_salt",$salt,time()-24*60*60,"/");
+	die("you are logged out");
+}
+$saltt=$_COOKIE['c_salt'];
+if (!empty($saltt)){
 include "algor.php";
 if ($logged==true){
 	die("You are already logged in.");
-}	
+}
+}
 ?>
 </body>
 </html>
