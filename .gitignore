@@ -1,18 +1,33 @@
-# First, ignore everything 
-* 
+# First, ignore everything
+
+*
+
+
 
 # Don't ignore readme
+
 !README.md
 
-# Don't ignore this file 
+
+
+# Don't ignore this file
+
 !.gitignore
 
+
+
 # Don't ignore auto-code updater
+
 !"Update code.bat"
+
 !"Get new code.bat"
 
-# Now, whitelist any files we want 
+
+
+# Now, whitelist any files we want
+
 !signup.php 
-!login.php 
+!login.php
+
 !algor.php 
 !editablecon.php
