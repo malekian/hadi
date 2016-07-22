@@ -35,8 +35,8 @@ endwhile;
   case:<br>
   <select name="case">
   <option value="">please choose</option>
-  <option value="sell">sell</option>
-  <option value="rent">rent</option>
+  <option value="sell" <?php if ($caseee=="sell") {echo "selected";}; ?>>sell</option>
+  <option value="rent" <?php if ($caseee=="rent") {echo "selected";}; ?>>rent</option>
   </select><br>
   apartment price:<br>
   <input  name="price" value="<?php echo "$price"; ?>"></br>

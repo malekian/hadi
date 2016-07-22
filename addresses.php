@@ -68,9 +68,7 @@ if(mysqli_connect_errno()){
 }
 //اجرای پرس و جوی داینامیک و دریافت مقادیر
 $user=$_COOKIE['c_user'];
-$quer = "SELECT*FROM ".$db_table." WHERE  
- `username`=
-'hadi'";
+$quer = "SELECT*FROM ".$db_table." WHERE `username`='" . $user . "'";
 $query=mysqli_query($connect,$quer)
 or die(mysqli_error());
 while($row = mysqli_fetch_array($query)):
