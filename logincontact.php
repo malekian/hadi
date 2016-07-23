@@ -7,17 +7,7 @@
 <body>
 <!--start infowmation box-->
 <div id="agahi">
-<button id="myBtn" class="btn circular">ثبت رایگان آگهی</button>
-<div class="dropdown">
-  <input class="dropdown-toggle" type="text">
-  <div class="dropdown-text">پنل کاربری</div>
-  <ul class="dropdown-content">
-    <li><a href="cookieresult.php">پسندیده ها</a></li>
-    <li><a href="#">آگهی های من</a></li>
-    <li><a href="login.php">ورود</a></li>
-	 <li><a href="signup.php">ثبت نام</a></li>
-  </ul>
-</div>
+<button id="myBtn" class="btn circular">post your ad</button>
 </div>
 <?php
 error_reporting(0);
@@ -38,18 +28,15 @@ if ($logged==true){
     <div class="modal-header">
 	 <div class="modal-header-word">
       <span class="close">×</span>
-      <h2>انتخاب نوع آگهی</h2>
+      <h2>choose your ad kind</h2>
 	  </div>
     </div>
     <div class="modal-body">
       <form action="" method="post">
-<p dir="rtl"><input onchange="this.form.submit()" value="1" type="checkbox" name="sign[1]" /> املاک </p>   <br>
-<p dir="rtl"><input onchange="this.form.submit()" value="2" type="checkbox" name="sign[2]" /> وسایل نقلیه  </p>   <br>
-<p dir="rtl"><input onchange="this.form.submit()" value="3" type="checkbox" name="sign[3]" /> لوازم الکترونیکی  </p>  <br>
-<p dir="rtl"><input onchange="this.form.submit()" value="4" type="checkbox" name="sign[4]" /> آموزشی و سرگرمی  </p> <br>
-<p dir="rtl"><input onchange="this.form.submit()" value="5" type="checkbox" name="sign[5]" /> پوشاک و جواهرآلات  </p>  <br>
-<p dir="rtl"><input onchange="this.form.submit()" value="6" type="checkbox" name="sign[6]" /> لوازم خانگی  </p>  <br>
-<p dir="rtl"><input onchange="this.form.submit()" value="7" type="checkbox" name="sign[7]" /> استخدام </p>   <br>
+<p dir="rtl"><input onchange="this.form.submit()" value="1" type="checkbox" name="sign[1]" /> case1 </p>   <br>
+<p dir="rtl"><input onchange="this.form.submit()" value="2" type="checkbox" name="sign[2]" /> case2</p>   <br>
+<p dir="rtl"><input onchange="this.form.submit()" value="3" type="checkbox" name="sign[3]" /> case3</p>  <br>
+<p dir="rtl"><input onchange="this.form.submit()" value="4" type="checkbox" name="sign[4]" />case4 </p> <br>
 </form>
     </div>
   </div>
@@ -92,10 +79,6 @@ elseif(isset($_POST['sign'][3]))
     header("Location: http://localhost/contactelectric.php");
 elseif(isset($_POST['sign'][4]))
     header("Location: http://localhost/contacttafrih.php");
-elseif(isset($_POST['sign'][5]))
-    header("Location: http://localhost/contactpooshak.php");
-elseif(isset($_POST['sign'][7]))
-    header("Location: http://localhost/contactestekhdam.php");
 	?>
 	<?php
 }	
@@ -108,7 +91,7 @@ else {
     <div class="modal-header">
 	 <div class="modal-header-word">
       <span class="close">×</span>
-      <h2>ورود به سایت</h2>
+      <h2>login to site</h2>
 	  </div>
     </div>
     <div class="modal-body">
