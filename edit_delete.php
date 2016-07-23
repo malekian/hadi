@@ -82,5 +82,21 @@ header("Location: submitmassage.php");
 $connect->close();
 }
 ?>
+<?php
+$date_clicked = date('Y-m-d H:i:s');
+if(isset($_POST['extension'])){
+$sql = "UPDATE advertisement SET
+date='$date_clicked'
+WHERE `id`='$id'";
+
+if ($connect->query($sql) === TRUE) {
+header("Location: submitmassage.php");
+} else {
+    echo "Error deleting record: " . $connect->error;
+}
+
+$connect->close();
+}
+?>
 </body>
 </html>

@@ -2,41 +2,6 @@
 <html>
 <head>
 <script src="//code.jquery.com/jquery-3.1.0.min.js"></script>
-<script>
-	function setCookie(cname, cvalue, exdays) {
-		var d = new Date();
-		d.setTime(d.getTime() + (exdays*24*60*60*1000));
-		var expires = "expires="+d.toUTCString();
-		document.cookie = cname + "=" + cvalue + "; " + expires;
-	}
-
-	function getCookie(cname) {
-		var name = cname + "=";
-		var ca = document.cookie.split(';');
-		for(var i = 0; i < ca.length; i++) {
-			var c = ca[i];
-			while (c.charAt(0) == ' ') {
-				c = c.substring(1);
-			}
-			if (c.indexOf(name) == 0) {
-				return c.substring(name.length, c.length);
-			}
-		}
-		return "";
-	}
-
-	function checkCookie() {
-		var user = getCookie("username");
-		if (user != "") {
-			alert("Welcome again " + user);
-		} else {
-			user = prompt("Please enter your name:", "");
-			if (user != "" && user != null) {
-				setCookie("username", user, 365);
-			}
-		}
-	}
-</script>
 </head>
 <body>
 <!--check login connection-->
@@ -73,13 +38,6 @@ if ($logged==true){
   <input name="phone"><br>
   <p><input name="submit" type="submit" id="submit" value="submit" /></p>
 </form>
-<script>
-	var form_str = "";
-	$('form').submit(function() {
-		form_str = JSON.stringify($(this).serialize());
-		console.log(form_str);
-	});
-</script>
 <?php
 }	
 else {
@@ -111,20 +69,6 @@ if(mysqli_stmt_execute($stmt))
     {
 			$id = mysqli_insert_id($connect);
 	echo "New record has id: " . $id;
-
-    }
-    else
-    {
-        echo "Error occurred: " . mysqli_error($connect);
-    }
-/* second table  */
-if ($stmt = mysqli_prepare($connect, "INSERT INTO post VALUES (?, ?)"))
-mysqli_stmt_bind_param($stmt, "ss",
-$username,$id);
-if(mysqli_stmt_execute($stmt))
-    {
-			$id = mysqli_insert_id($connect);
-	echo "New record has id: " . $id;
 		header("Location: submitmassage.php");
 
     }
@@ -133,9 +77,6 @@ if(mysqli_stmt_execute($stmt))
         echo "Error occurred: " . mysqli_error($connect);
     }
     /* close statement */
-
-
-	
     mysqli_stmt_close($stmt);
 }	
 ?>

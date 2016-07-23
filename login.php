@@ -38,7 +38,7 @@ if($_POST['login']){
 			die("Incorrect password  <a href='login.php'>&larr;Back</a>");
 		}
 		$salt=hash("sha512", rand() . rand() . rand());
-		setcookie("c_user",hash("sha512",$username),time()+24*60*60,"/");
+		setcookie("c_user",$username,time()+24*60*60,"/");
 		setcookie("c_salt",$salt,time()+24*60*60,"/");
 		$userID=$user['id'];
 		mysql_query("UPDATE `signup` SET `salt`='$salt' WHERE `id`='$userID'");
