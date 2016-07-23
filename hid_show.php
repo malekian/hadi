@@ -10,6 +10,7 @@ $("#ddColor").change(function () {
             if($(this).attr("value")=="red"){
 				$(".green select").val("")
 				$(".green input").val("")
+				$(".green input[type=checkbox]").prop('checked', false)
 				
                 $(".green").hide().find('input,select').removeAttr('required');
                 $(".red").show();
@@ -17,6 +18,7 @@ $("#ddColor").change(function () {
             else if($(this).attr("value")=="green"){
 				$(".red select").val("")
 				$(".red input").val("")
+				$(".red input[type=checkbox]").prop('checked', false)
 				
                 $(".red").hide().find('input,select').removeAttr('required');
                 $(".green").show();
