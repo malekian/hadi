@@ -42,9 +42,14 @@ if($_POST['login']){
 		setcookie("c_salt",$salt,time()+24*60*60,"/");
 		$userID=$user['id'];
 		mysql_query("UPDATE `signup` SET `salt`='$salt' WHERE `id`='$userID'");
-		echo"you are logged in";
-		echo"<br>";
+		
+		if ($_GET['last_page']) {
+			header("Location: http://" . $_GET['lastpage']);
+		} else {
+			echo"you are logged in";
+			echo"<br>";
 		}
+	}
 }	
 if($_POST['logout']){
 	setcookie("c_salt","",time()-24*60*60,"/");

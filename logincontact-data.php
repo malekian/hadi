@@ -49,59 +49,7 @@ elseif(isset($_POST['sign'][4]))
     header("Location: http://localhost/contacttafrih.php");
 
 } else {
-
-?>
-<div id="myModal" class="modal">
-
-  <!-- Modal content -->
-  <div class="modal-content">
-    <div class="modal-header">
-	 <div class="modal-header-word">
-      <span class="close">×</span>
-      <h2>login to site</h2>
-	  </div>
-    </div>
-    <div class="modal-body">
-	<form action="" method="POST" >
-  username:<br>
-  <input type="text" name="username"><br>
-  password:<br>
-  <input  type="password" name="password"></br>
-  <p><input name="login" type="submit" id="submit" value="Login" /></p>
-  No account?<a href="signup.php">sign up</a>
-</form>
-
-<?php
-
-error_reporting(0);
-$db_host="localhost";
-$db_user="root";
-$db_pass="";
-$db_name="realestate";
-$db_table="signup";
-$connect = mysql_connect("$db_host", "$db_user", "$db_pass") or die("could not connect to the server");
-mysql_select_db("realestate",$connect) or die("could not connect to the database");
-if($_POST['login']){
-	if($_POST['username'] && $_POST['password']){
-       $username=mysql_real_escape_string($_POST['username']);
-       $password=mysql_real_escape_string(hash("sha512",$_POST['password']));
-       $user=mysql_fetch_array(mysql_query("SELECT*FROM `signup` WHERE `username`='$username'")); 
-		if ($user=='0'){
-			die("That username does not exist! Try making <i>$username</i> today! <a href='login.php'>&larr;Back</a>");
-		}
-		if ($user['password']!=$password){
-			die("Incorrect password  <a href='login.php'>&larr;Back</a>");
-		}
-		$salt=hash("sha512", rand() . rand() . rand());
-		setcookie("c_user",$username,time()+24*60*60,"/");
-		setcookie("c_salt",$salt,time()+24*60*60,"/");
-		$userID=$user['id'];
-		mysql_query("UPDATE `signup` SET `salt`='$salt' WHERE `id`='$userID'");
-		echo"you are logged in";
-		echo"<br>";
-	}
-}
-
+header("Location: http://localhost/real-estate/login.php");
 }
 }
 ?>
