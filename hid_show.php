@@ -8,11 +8,17 @@ $(document).ready(function(){
 $("#ddColor").change(function () {
         $(this).find("option:selected").each(function(){
             if($(this).attr("value")=="red"){
-                $(".box").not(".red").hide().find('input,select').removeAttr('required');
+				$(".green select").val("")
+				$(".green input").val("")
+				
+                $(".green").hide().find('input,select').removeAttr('required');
                 $(".red").show();
             }
             else if($(this).attr("value")=="green"){
-                $(".box").not(".green").hide().find('input,select').removeAttr('required');
+				$(".red select").val("")
+				$(".red input").val("")
+				
+                $(".red").hide().find('input,select').removeAttr('required');
                 $(".green").show();
             }
             else{
@@ -39,7 +45,7 @@ $("#ddColor").change(function () {
   pricerange:<br>
   <input type="text" name="pricerange" required><br>
     case1:<br>
-  <select name="case" required>
+  <select name="case1" required>
   <option value="">please choose</option>
   <option value="1">1</option>
   <option value="2">2</option>
@@ -49,7 +55,7 @@ $("#ddColor").change(function () {
   rentrange:<br>
   <input type="text" name="rentrange" required><br>
     case2:<br>
-  <select name="case" required>
+  <select name="case2" required>
   <option value="">please choose</option>
   <option value="3">3</option>
   <option value="4">4</option>
