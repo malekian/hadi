@@ -1,12 +1,21 @@
 <?php
 error_reporting(0);
+$saltt=$_COOKIE['c_salt'];
+$db_host="localhost";
+$db_user="root";
+$db_pass="";
+$db_name="realestate";
+$db_table="signup";
+$connect = mysql_connect("$db_host", "$db_user", "$db_pass") or die("could not connect to the server");
+mysql_select_db("realestate",$connect) or die("could not connect to the database");
+$check = mysql_fetch_array(mysql_query("SELECT * FROM `signup` WHERE `salt`='$saltt'"));
+$username=$check['username'];
 include "algor.php";
-$logged = false;
+
 if($_POST['load-content']) {
 	if($logged==true) {
 
 ?>
-<div>Logged in: <?php echo $logged ?></div>
 <div id="myModal" class="modal">
 
   <!-- Modal content -->
@@ -42,7 +51,6 @@ elseif(isset($_POST['sign'][4]))
 } else {
 
 ?>
-<div>Logged in: <?php echo $logged ?></div>
 <div id="myModal" class="modal">
 
   <!-- Modal content -->
