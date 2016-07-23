@@ -50,6 +50,7 @@ $("#ddColor").change(function () {
   <option value="1">1</option>
   <option value="2">2</option>
   </select><br>
+<input type="checkbox" name="vehicle1" value="Bike" required> I have a bike<br>
 </div>
 <div class="green box" >
   rentrange:<br>
@@ -60,6 +61,7 @@ $("#ddColor").change(function () {
   <option value="3">3</option>
   <option value="4">4</option>
   </select><br>
+  <input type="checkbox" name="vehicle2" value="Car" required> I have a car<br>
 </div>
   <p><input name="submit" type="submit" id="submit" value="submit" /></p>
   </form>
@@ -78,11 +80,12 @@ $pricerange = !empty($_POST['pricerange']) ? $_POST['pricerange'] : '';
 $case1 = !empty($_POST['case1']) ? $_POST['case1'] : '';
 $rentrange = !empty($_POST['rentrange']) ? $_POST['rentrange'] : '';
 $case2 = !empty($_POST['case2']) ? $_POST['case2'] : '';	
-
+$vehicle1 = !empty($_POST['vehicle1']) ? $_POST['vehicle1'] : '';
+$vehicle2 = !empty($_POST['vehicle2']) ? $_POST['vehicle2'] : '';
 if(isset($_POST['submit'])){
-if ($stmt = mysqli_prepare($connect, "INSERT INTO form VALUES ( ?, ?, ?, ?)"))
-mysqli_stmt_bind_param($stmt, "ssss",
-$pricerange,$case1,$rentrange,$case2);
+if ($stmt = mysqli_prepare($connect, "INSERT INTO form VALUES ( ?, ?, ?, ? ,? ,?)"))
+mysqli_stmt_bind_param($stmt, "ssssss",
+$pricerange,$case1,$rentrange,$case2,$vehicle1,$vehicle2);
 if(mysqli_stmt_execute($stmt))
     {
 			$id = mysqli_insert_id($connect);
