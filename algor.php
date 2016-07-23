@@ -10,3 +10,4 @@ if($_COOKIE['c_user'] && $_COOKIE['c_salt']){
 		}
 	}
 }
+?>

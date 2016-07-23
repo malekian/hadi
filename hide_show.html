@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="//code.jquery.com/jquery-3.1.0.min.js"></script>
+<script>
+$(document).ready(function(){ 
+$("#ddColor").change(function () {
+        $(this).find("option:selected").each(function(){
+            if($(this).attr("value")=="red"){
+                $(".box").not(".red").hide().find('input,select').removeAttr('required');
+                $(".red").show();
+            }
+            else if($(this).attr("value")=="green"){
+                $(".box").not(".green").hide().find('input,select').removeAttr('required');
+                $(".green").show();
+            }
+            else{
+                $(".box").hide();
+            }
+        });
+    }).change();
+});
+</script>
+</head>
+<body>
+<div>
+	
+			<p >
+            <select name="adkind" id="ddColor" required >
+            <option value="">please choose</option>
+            <option value="red">sell</option>
+            <option value="green">rent</option>
+            </select></p>
+
+</div>
+<div class="red box">
+  pricerange:<br>
+  <input type="text" name="apartmentadress" required><br>
+    case1:<br>
+  <select name="case" required>
+  <option value="">please choose</option>
+  <option value="1">1</option>
+  <option value="2">2</option>
+  </select><br>
+</div>
+<div class="green box" >
+  rentrange:<br>
+  <input type="text" name="apartmentadress" required><br>
+    case2:<br>
+  <select name="case" required>
+  <option value="">please choose</option>
+  <option value="3">3</option>
+  <option value="4">4</option>
+  </select><br>
+</div>
+</body>
+</html>
