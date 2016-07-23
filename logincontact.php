@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<link rel="stylesheet" href="css/pop-op.css">
+<link rel="stylesheet" href="pop-op.css">
 </head>
 <body>
 <!--start infowmation box-->
