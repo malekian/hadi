@@ -48,8 +48,8 @@ function sendMail($gmail, $pass, $to, $subject, $body) {
 
 while($row = mysqli_fetch_array($query)):
 	sendMail(
-		"from@example.com",
-		"password",
+		"from@gmail.com", // Must be real gmail account
+		"password", // Must be valid password for above gmail account
 		"to@example.com",
 		"subject",
 		"message"
