@@ -39,10 +39,15 @@ include "algor.php";
     </div>
     <div class="modal-body">
       <form action="" method="post">
-<p dir="rtl"><input onchange="this.form.submit()" value="1" type="checkbox" name="sign[1]" /> case1 </p>   <br>
-<p dir="rtl"><input onchange="this.form.submit()" value="2" type="checkbox" name="sign[2]" /> case2</p>   <br>
-<p dir="rtl"><input onchange="this.form.submit()" value="3" type="checkbox" name="sign[3]" /> case3</p>  <br>
-<p dir="rtl"><input onchange="this.form.submit()" value="4" type="checkbox" name="sign[4]" />case4 </p> <br>
+      <form action="" method="post">
+<p dir="rtl"><input onchange="this.form.submit()" value="1" type="checkbox" name="sign[1]" /> املاک </p>   <br>
+<p dir="rtl"><input onchange="this.form.submit()" value="2" type="checkbox" name="sign[2]" /> وسایل نقلیه  </p>   <br>
+<p dir="rtl"><input onchange="this.form.submit()" value="3" type="checkbox" name="sign[3]" /> لوازم الکترونیکی  </p>  <br>
+<p dir="rtl"><input onchange="this.form.submit()" value="4" type="checkbox" name="sign[4]" /> آموزشی و سرگرمی  </p> <br>
+<p dir="rtl"><input onchange="this.form.submit()" value="5" type="checkbox" name="sign[5]" /> پوشاک و جواهرآلات  </p>  <br>
+<p dir="rtl"><input onchange="this.form.submit()" value="6" type="checkbox" name="sign[6]" /> لوازم خانگی  </p>  <br>
+<p dir="rtl"><input onchange="this.form.submit()" value="7" type="checkbox" name="sign[7]" /> استخدام </p>   <br>
+</form>
 </form>
     </div>
   </div>
@@ -79,18 +84,14 @@ function update_content() {
 }
 </script>
 <?php
-
-if (isset($_POST['sign'][1]))
-    header("Location: http://localhost/contact.php");
-elseif(isset($_POST['sign'][2]))
-    header("Location: http://localhost/contact_mashin.php");
-elseif(isset($_POST['sign'][3]))
-    header("Location: http://localhost/contactelectric.php");
-elseif(isset($_POST['sign'][4]))
-    header("Location: http://localhost/contacttafrih.php");
-
 } else {
-header("Location: http://localhost/real-estate/login.php?lastpage=" . urlencode($_SERVER['REQUEST_URI']));
+	?>
+<script type="text/javascript">
+    function update_content() {
+window.location =("http://localhost/real-estate/login.php?lastpage=" + encodeURIComponent(window.location.href));
+	}
+</script> 
+<?php
 }
 ?>
 </body>
