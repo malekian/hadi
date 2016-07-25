@@ -44,7 +44,7 @@ if($_POST['login']){
 		mysql_query("UPDATE `signup` SET `salt`='$salt' WHERE `id`='$userID'");
 		
 		if ($_GET['lastpage']) {
-			header("Location: http://localhost/" . $_GET['lastpage']);
+			header("Location: " . $_GET['lastpage']);
 		} else {
 			echo"you are logged in";
 			echo"<br>";
