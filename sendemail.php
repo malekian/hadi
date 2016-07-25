@@ -16,16 +16,44 @@ mysqli_query($connect,"SET character_set_connection='utf8'");
 if(mysqli_connect_errno()){
 	die("unable to connect".mysqli_connect_errno());
 }
-$quer = "SELECT*FROM realestate WHERE  date < DATE_SUB(NOW() , INTERVAL 1 DAY)";
+$quer = "SELECT*FROM advertisement";
 $query=mysqli_query($connect,$quer)
 or die(mysqli_error());
+
+date_default_timezone_set('Etc/UTC');
+require 'mailer/PHPMailerAutoload.php';
+
+function sendMail($gmail, $pass, $to, $subject, $body) {
+	$mail = new PHPMailer(); // create a new object
+	$mail->IsSMTP(); // enable SMTP
+	$mail->SMTPDebug = 0; // debugging: 1 = errors and messages, 2 = messages only
+	$mail->SMTPAuth = true; // authentication enabled
+	$mail->SMTPSecure = 'ssl'; // secure transfer enabled REQUIRED for Gmail
+	$mail->Host = "smtp.gmail.com";
+	$mail->Port = 465; // or 587
+	$mail->IsHTML(true);
+	$mail->Username = $gmail;
+	$mail->Password = $pass;
+	$mail->SetFrom($gmail);
+	$mail->Subject = $subject;
+	$mail->Body = $body;
+	$mail->AddAddress($to);
+
+	if(!$mail->Send()) {
+		echo "Mailer Error: " . $mail->ErrorInfo;
+	} else {
+		echo "Message has been sent";
+	}
+}
+
 while($row = mysqli_fetch_array($query)):
-$mailto=$row['email'];
-$subject = "test";
-$txt = "Hello!";
-$headers = "From: telejarat.ir" . "\r\n" .
-"CC: somebodyelse@example.com";
-mail($mailto,$subject,$txt,$headers);
+	sendMail(
+		"from@example.com",
+		"password",
+		"to@example.com",
+		"subject",
+		"message"
+	);
 endwhile;
 ?>
  </body>
