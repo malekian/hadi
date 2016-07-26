@@ -1,5 +1,7 @@
 <?php
-$redirectUri='http://localhost/real-estate/get_auth_token.php';
-$clientId = '353593535968-rpuvkgj19cubg9mhbr6oe96m0lu58o1d.apps.googleusercontent.com';
-$clientSecret = 'jizAkrFnIAaT6SUY6LNdvTme';
+//$redirectUri='http://localhost/real-estate/get_auth_token.php';
+
+
+
+require_once 'vendor/phpmailer/phpmailer/get_oauth_token.php'
 ?>

@@ -26,11 +26,17 @@ session_start();
 
 //If this automatic URL doesn't work, set it yourself manually
 $redirectUri = isset($_SERVER['HTTPS']) ? 'https://' : 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];
+
 //$redirectUri = 'http://localhost/phpmailer/get_oauth_token.php';
 
+
 //These details obtained are by setting up app in Google developer console.
-$clientId = 'RANDOMCHARS-----duv1n2.apps.googleusercontent.com';
-$clientSecret = 'RANDOMCHARS-----lGyjPcRtvP';
+// Slayther
+$clientId = '1061044130146-k8s892ob8va56lf38ha0libqu054n60t.apps.googleusercontent.com';
+$clientSecret = 'Zjfd7sgwB-uE-pSzNpwlCiLU';
+// Malekian
+//$clientId = '353593535968-rpuvkgj19cubg9mhbr6oe96m0lu58o1d.apps.googleusercontent.com';
+//$clientSecret = 'jizAkrFnIAaT6SUY6LNdvTme';
 
 class Google extends AbstractProvider
 {
