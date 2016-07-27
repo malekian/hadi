@@ -32,11 +32,11 @@ $redirectUri = isset($_SERVER['HTTPS']) ? 'https://' : 'http://' . $_SERVER['HTT
 
 //These details obtained are by setting up app in Google developer console.
 // Slayther
-$clientId = '1061044130146-k8s892ob8va56lf38ha0libqu054n60t.apps.googleusercontent.com';
-$clientSecret = 'Zjfd7sgwB-uE-pSzNpwlCiLU';
+//$clientId = '1061044130146-k8s892ob8va56lf38ha0libqu054n60t.apps.googleusercontent.com';
+//$clientSecret = 'Zjfd7sgwB-uE-pSzNpwlCiLU';
 // Malekian
-//$clientId = '353593535968-rpuvkgj19cubg9mhbr6oe96m0lu58o1d.apps.googleusercontent.com';
-//$clientSecret = 'jizAkrFnIAaT6SUY6LNdvTme';
+$clientId = '353593535968-rpuvkgj19cubg9mhbr6oe96m0lu58o1d.apps.googleusercontent.com';
+$clientSecret = 'jizAkrFnIAaT6SUY6LNdvTme';
 
 class Google extends AbstractProvider
 {
