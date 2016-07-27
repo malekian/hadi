@@ -86,17 +86,9 @@ function sendMail($fromName, $toEmail, $subject, $body) {
 	}
 }
 
-/* Test
-sendMail(
-	"slayther.morderclaw@gmail.com",
-	"Hi there Slayther!",
-	"Just wanted to let you know that this works perfectly!!!"
-);
-*/
-
 while($row = mysqli_fetch_array($query)):
 	sendMail(
-		"Hadi's Real Estates"
+		"Hadi's Real Estates",
 		$row["email"],
 		"Welcome to our services!",
 		"Hello there, " . $row["username"] . "!\nJust wanted to welcome you to our real estate services!"
