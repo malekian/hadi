@@ -23,7 +23,7 @@ or die(mysqli_error());
 date_default_timezone_set('Etc/UTC');
 require './vendor/autoload.php';
 
-function sendMail($to, $subject, $body) {
+function sendMail($fromName, $toEmail, $subject, $body) {
 	$clientEmail = 'hadimalekian1370@gmail.com';
 	$clientId = '353593535968-rpuvkgj19cubg9mhbr6oe96m0lu58o1d.apps.googleusercontent.com';
 	$clientSecret = 'jizAkrFnIAaT6SUY6LNdvTme';
@@ -64,9 +64,9 @@ function sendMail($to, $subject, $body) {
 	//Set who the message is to be sent from
 	//For gmail, this generally needs to be the same as the user you logged in as
 	
-	$mail->setFrom($clientEmail);
+	$mail->setFrom($clientEmail, $fromName);
 	//Set who the message is to be sent to
-	$mail->addAddress($to);
+	$mail->addAddress($toEmail);
 	//Set the subject line
 	$mail->Subject = $subject;
 	//Read an HTML message body from an external file, convert referenced images to embedded,
@@ -96,6 +96,7 @@ sendMail(
 
 while($row = mysqli_fetch_array($query)):
 	sendMail(
+		"Hadi's Real Estates"
 		$row["email"],
 		"Welcome to our services!",
 		"Hello there, " . $row["username"] . "!\nJust wanted to welcome you to our real estate services!"
