@@ -9,14 +9,14 @@
 $db_host="localhost";
 $db_user="root";
 $db_pass="";
-$db_name="realestate";
+$db_name="realstate";
 $connect = mysqli_connect("$db_host", "$db_user", "$db_pass", "$db_name");
 mysqli_query($connect,"SET NAMES 'utf8'");
 mysqli_query($connect,"SET character_set_connection='utf8'");
 if(mysqli_connect_errno()){
 	die("unable to connect".mysqli_connect_errno());
 }
-$quer = "SELECT*FROM advertisement";
+$quer = "SELECT*FROM realestate WHERE  date < DATE_SUB(NOW() , INTERVAL 1 DAY)";
 $query=mysqli_query($connect,$quer)
 or die(mysqli_error());
 
@@ -86,13 +86,23 @@ function sendMail($fromName, $toEmail, $subject, $body) {
 	}
 }
 
+/* Test
+sendMail(
+	"slayther.morderclaw@gmail.com",
+	"Hi there Slayther!",
+	"Just wanted to let you know that this works perfectly!!!"
+);
+*/
+
 while($row = mysqli_fetch_array($query)):
+if (!empty($row["email"])){
 	sendMail(
-		"Hadi's Real Estates",
+		"telejarat.ir",
 		$row["email"],
 		"Welcome to our services!",
 		"Hello there, " . $row["username"] . "!\nJust wanted to welcome you to our real estate services!"
 	);
+}
 endwhile;
 ?>
  </body>
