@@ -9,19 +9,19 @@
 $db_host="localhost";
 $db_user="root";
 $db_pass="";
-$db_name="realstate";
+$db_name="realestate";
 $connect = mysqli_connect("$db_host", "$db_user", "$db_pass", "$db_name");
 mysqli_query($connect,"SET NAMES 'utf8'");
 mysqli_query($connect,"SET character_set_connection='utf8'");
 if(mysqli_connect_errno()){
 	die("unable to connect".mysqli_connect_errno());
 }
-$quer = "SELECT*FROM realestate WHERE  date < DATE_SUB(NOW() , INTERVAL 1 DAY)";
+$quer = "SELECT*FROM advertisement";
 $query=mysqli_query($connect,$quer)
-or die(mysqli_error());
+or die(mysqli_error($connect));
 
 date_default_timezone_set('Etc/UTC');
-require 'mailer/PHPMailerAutoload.php';
+require 'vendor/phpmailer/phpmailer/PHPMailerAutoload.php';
 
 function sendMail($gmail, $pass, $to, $subject, $body) {
 	$mail = new PHPMailer(); // create a new object
@@ -48,9 +48,9 @@ function sendMail($gmail, $pass, $to, $subject, $body) {
 
 while($row = mysqli_fetch_array($query)):
 	sendMail(
-		"hadimalekian1370@gmail.com", // Must be real gmail account
+		"", // Must be real gmail account
 		"", // Must be valid password for above gmail account
-		"hadi.malekian@outlook.com",
+		"",
 		"test",
 		"wellcome"
 	);
