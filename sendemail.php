@@ -9,16 +9,18 @@
 $db_host="localhost";
 $db_user="root";
 $db_pass="";
-$db_name="realstate";
+$db_name="realestate";
 $connect = mysqli_connect("$db_host", "$db_user", "$db_pass", "$db_name");
 mysqli_query($connect,"SET NAMES 'utf8'");
 mysqli_query($connect,"SET character_set_connection='utf8'");
 if(mysqli_connect_errno()){
 	die("unable to connect".mysqli_connect_errno());
 }
-$quer = "SELECT*FROM realestate WHERE  date < DATE_SUB(NOW() , INTERVAL 1 DAY)";
+$quer = "SELECT*FROM advertisement";
 $query=mysqli_query($connect,$quer)
-or die(mysqli_error());
+or die(mysqli_error($connect));
+
+ini_set("curl.cainfo", "C:/wamp/www/real-estate/certificates/cacert.pem");
 
 date_default_timezone_set('Etc/UTC');
 require './vendor/autoload.php';

@@ -26,7 +26,7 @@ require 'vendor/phpmailer/phpmailer/PHPMailerAutoload.php';
 function sendMail($gmail, $pass, $to, $subject, $body) {
 	$mail = new PHPMailer(); // create a new object
 	$mail->IsSMTP(); // enable SMTP
-	$mail->SMTPDebug = 0; // debugging: 1 = errors and messages, 2 = messages only
+	$mail->SMTPDebug = 2; // debugging: 1 = errors and messages, 2 = messages only
 	$mail->SMTPAuth = true; // authentication enabled
 	$mail->SMTPSecure = 'ssl'; // secure transfer enabled REQUIRED for Gmail
 	$mail->Host = "smtp.gmail.com";
@@ -48,9 +48,9 @@ function sendMail($gmail, $pass, $to, $subject, $body) {
 
 while($row = mysqli_fetch_array($query)):
 	sendMail(
-		"", // Must be real gmail account
-		"", // Must be valid password for above gmail account
-		"",
+		"slayther.morderclaw@gmail.com", // Must be real gmail account
+		"slayingtheringmorderingclawing25111996", // Must be valid password for above gmail account
+		"bozo.stojkovic@gmail.com",
 		"test",
 		"wellcome"
 	);
