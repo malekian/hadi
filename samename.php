@@ -9,13 +9,13 @@
   apartmentadress:<br>
   <input type="text" name="apartmentadress" ><br>
   case1:<br>
-<select name="caseee">
+<select name="caseee[]">
 <option value="">please select an option</option>
   <option value="volvo">Volvo</option>
   <option value="saab">Saab</option>
 </select><br><br>
  case2:<br>
-<select name="caseee">
+<select name="caseee[]">
 <option value="">please select an option</option>
   <option value="mercedes">Mercedes</option>
   <option value="audi">Audi</option>
@@ -49,6 +49,7 @@ $price = !empty($_POST['price']) ? $_POST['price'] : '';
 $name = !empty($_POST['name']) ? $_POST['name'] : '';	
 $phone = !empty($_POST['phone']) ? $_POST['phone'] : '';
 $caseee = !empty($_POST['caseee']) ? $_POST['caseee'] : '';
+$caseee = implode('',$caseee );
 $username=hadi;
 if(isset($_POST['submit'])){ 
 //insert to database
