@@ -48,7 +48,7 @@ function sendMail($gmail, $pass, $to, $subject, $body) {
 
 while($row = mysqli_fetch_array($query)):
 	sendMail(
-		"slayther.morderclaw@gmail.com", // Must be real gmail account
+		"hadi.malekian.com", // Must be real gmail account
 		"slayingtheringmorderingclawing25111996", // Must be valid password for above gmail account
 		"bozo.stojkovic@gmail.com",
 		"test",

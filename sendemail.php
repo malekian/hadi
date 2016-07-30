@@ -9,14 +9,14 @@
 $db_host="localhost";
 $db_user="root";
 $db_pass="";
-$db_name="realestate";
+$db_name="realstate";
 $connect = mysqli_connect("$db_host", "$db_user", "$db_pass", "$db_name");
 mysqli_query($connect,"SET NAMES 'utf8'");
 mysqli_query($connect,"SET character_set_connection='utf8'");
 if(mysqli_connect_errno()){
 	die("unable to connect".mysqli_connect_errno());
 }
-$quer = "SELECT*FROM advertisement";
+$quer = "SELECT*FROM realestate";
 $query=mysqli_query($connect,$quer)
 or die(mysqli_error($connect));
 
@@ -101,8 +101,8 @@ if (!empty($row["email"])){
 	sendMail(
 		"telejarat.ir",
 		$row["email"],
-		"Welcome to our services!",
-		"Hello there, " . $row["username"] . "!\nJust wanted to welcome you to our real estate services!"
+		"$row[family] Welcome to our services!",
+		"Hello there, " . $row["username"] . "!\n $row[family] Just wanted to welcome you to our real estate services!"
 	);
 }
 endwhile;
