@@ -10,11 +10,7 @@
  * @param int $width
  * @param int $height
  */
-function resize($index, $width, $height){
-	$name = $_FILES['image']['name'][$index];
-	$tmpname = $_FILES['image']['tmp_name'][$index];
-	$type = $_FILES['image']['type'][$index];
-	
+function resize($name, $tmpname, $type, $width, $height){
 	/* Get original image x y*/
 	list($w, $h) = getimagesize($tmpname);
 	/* calculate new image size with ratio */

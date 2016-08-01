@@ -67,6 +67,7 @@
       border-radius: 3px 3px 0px 0px;
     }
   </style>
+  <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
 </head>
 
 <body>
@@ -95,6 +96,22 @@
   </form>
   <script>
     window.onload = function () {
+		
+		var image_data = [];
+		
+		$("#submit").click(function( event ) {
+		  event.preventDefault();
+		  $.ajax({
+			  type: "POST",
+			  url: window.location.href,
+			  data: {
+				  'image_data': JSON.stringify(image_data)
+			  },
+			  success: (data) => {
+				  //console.log(data);
+			  }
+			});
+		});
 
       var template_div = document.querySelector("#result-container-template");
 
@@ -109,6 +126,7 @@
 
           for (var i = 0; i < files.length; i++) {
             var file = files[i];
+			console.log(file);
 
             //Only pics
             if (!file.type.match('image'))
@@ -116,29 +134,39 @@
 
             var picReader = new FileReader();
 
-            picReader.addEventListener("load", function (event) {
+            picReader.addEventListener("load", function (file) {
+				return function (event) {
+					image_data.push({
+						'name': file.name,
+						'size': file.size,
+						'type': file.type,
+						'base64': event.target.result
+					});
+					
+					console.log(file);
+					
+				  var picFile = event.target;
+				  var div = template_div.cloneNode(true);
+				  div.id = "result-container";
 
-              var picFile = event.target;
-              var div = template_div.cloneNode(true);
-              div.id = "result-container";
+				  var img_elem = div.querySelector("img");
+				  img_elem.src = picFile.result;
+				  img_elem.title = picFile.name;
 
-              var img_elem = div.querySelector("img");
-              img_elem.src = picFile.result;
-              img_elem.title = picFile.name;
+				  output.insertBefore(div, null);
+				  div.querySelector("button")
+					.addEventListener("click", function (event) {
+					  div.parentNode.removeChild(div);
+					});
 
-              output.insertBefore(div, null);
-              div.querySelector("button")
-                .addEventListener("click", function (event) {
-                  div.parentNode.removeChild(div);
-                });
-
-            });
+				};
+			}(file));
 
             //Read the image
             picReader.readAsDataURL(file);
           }
 
-          filesInput.value = "";
+          //filesInput.value = "";
         });
       }
       else {
@@ -147,7 +175,10 @@
     }
 
   </script>
-  <?php
+</body>
+
+</html>
+<?php
 $db_host="localhost";
 $db_user="root";
 $db_pass="";
@@ -167,6 +198,69 @@ $valid_exts = array('jpeg', 'jpg', 'png', 'gif');
 // thumbnail sizes
 $sizes = array( 600 => 600);
 
+function base64_to_jpeg($base64_string, $output_file) {
+    $ifp = fopen($output_file, "wb"); 
+
+    $data = explode(',', $base64_string);
+
+    fwrite($ifp, base64_decode($data[1])); 
+    fclose($ifp); 
+
+    return $output_file; 
+}
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+	if(isset($_POST['image_data'])) {
+		$image_data_list = json_decode($_POST['image_data'], true);
+		print_r($image_data_list);
+		
+		foreach($image_data_list as $index => $image_data) {
+			$image_name = $image_data['name'];
+			$image_size = $image_data['size'];
+			$image_type = $image_data['type'];
+			$image_base64 = $image_data['base64'];
+			
+			echo $image_name;
+			
+			$image_path = base64_to_jpeg($image_base64, "tmp/" . $image_name);
+			
+			if ($image_size < $max_file_size) {
+				$image[] = addslashes($image_name);
+				$ext = strtolower(pathinfo($image_name, PATHINFO_EXTENSION));
+				if (in_array($ext, $valid_exts)) {
+					// resize image
+					$files = resize($image_name, $image_path, $image_type, 600, 600);
+				} else {
+					$msg = 'Unsupported file';
+				}
+			} else {
+				$msg = 'Please upload image smaller than 200KB';
+			}
+			
+			unlink($image_path);
+		}
+		
+		if ($stmt = mysqli_prepare($connect, "INSERT INTO $db_table VALUES ('', ?)")) {
+			// bind parameters for markers
+			$image_names = implode($image, ",");
+			mysqli_stmt_bind_param($stmt, "s", $image_names);
+			// execute query
+			if(mysqli_stmt_execute($stmt))
+			{
+				echo"your image has been send successfully";
+			}
+			else
+			{
+				echo "Error occurred: " . mysqli_error($connect);
+			}
+
+			// close statement
+			mysqli_stmt_close($stmt);
+		}
+	}
+}
+
+/*
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	if(isset($_FILES['image'])) {
 		foreach($_FILES['image']['name'] as $index => $image_name) {
@@ -195,10 +289,10 @@ if(isset($_POST['submit'])){
 //insert to database
 if ($stmt = mysqli_prepare($connect, "INSERT INTO $db_table VALUES ('', ?)"))
 {
-	/* bind parameters for markers */
+	// bind parameters for markers
 	$image_names = implode($image, ",");
     mysqli_stmt_bind_param($stmt, "s", $image_names);
-    /* execute query */
+    // execute query
     if(mysqli_stmt_execute($stmt))
     {
 echo"your image has been send successfully";
@@ -208,11 +302,9 @@ echo"your image has been send successfully";
         echo "Error occurred: " . mysqli_error($connect);
     }
 
-    /* close statement */
+    // close statement
     mysqli_stmt_close($stmt);
 }
 }
+*/
 ?>
-</body>
-
-</html>
