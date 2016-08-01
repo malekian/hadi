@@ -10,18 +10,18 @@
  * @param int $width
  * @param int $height
  */
-function resize($width, $height){
+function resize($tmpname, $name, $width, $height){
 	/* Get original image x y*/
-	list($w, $h) = getimagesize($_FILES['image']['tmp_name']);
+	list($w, $h) = getimagesize($tmpname);
 	/* calculate new image size with ratio */
 	$ratio = max($width/$w, $height/$h);
 	$h = ceil($height / $ratio);
 	$x = ($w - $width / $ratio) / 2;
 	$w = ceil($width / $ratio);
 	/* new file name */
-	$path = 'photo/'.$_FILES['image']['name'];
+	$path = 'photo/'.$name;
 	/* read binary data from image file */
-	$imgString = file_get_contents($_FILES['image']['tmp_name']);
+	$imgString = file_get_contents($tmpname);
 	/* create image from string */
 	$image = imagecreatefromstring($imgString);
 	$tmp = imagecreatetruecolor($width, $height);

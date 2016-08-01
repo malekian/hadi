@@ -40,21 +40,28 @@ $valid_exts = array('jpeg', 'jpg', 'png', 'gif');
 $sizes = array( 600 => 600);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-	if(isset($_FILES['image']) AND $_FILES['image']['size'] < $max_file_size ) {
-		$image = addslashes($_FILES["image"]["name"]);	//image name (the one we insert it into database)
-		// get file extension
-		$ext = strtolower(pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION));
-		if (in_array($ext, $valid_exts)) {
-			/* resize image */
-			foreach ($sizes as $w => $h) {
-				$files[] = resize($w, $h);
+	if(isset($_FILES['image'])) {
+		foreach($_FILES['image']['name'] as $index => $image_name) {
+			$image_size = $_FILES['image']['size'][$index];
+			$image_path = $_FILES['image']['tmp_name'][$index];
+			
+			if ($image_size < $max_file_size) {
+				$image[] = addslashes($image_name);
+				$ext = strtolower(pathinfo($image_name, PATHINFO_EXTENSION));
+				if (in_array($ext, $valid_exts)) {
+					// resize image
+					foreach ($sizes as $w => $h) {
+						$files[] = resize($image_path, $image_name, $w, $h);
+					}
+				} else {
+					$msg = 'Unsupported file';
+				}
+			} else {
+				$msg = 'Please upload image smaller than 200KB';
 			}
-
-		} else {
-			$msg = 'Unsupported file';
 		}
-	} else{
-		$msg = 'Please upload image smaller than 200KB';
+	} else {
+		$msg = 'Image too big to fetch.';
 	}
 }
 
@@ -63,7 +70,7 @@ if(isset($_POST['submit'])){
 if ($stmt = mysqli_prepare($connect, "INSERT INTO $db_table VALUES ('', ?)"))
 {
 	/* bind parameters for markers */
-    mysqli_stmt_bind_param($stmt, "s",$image);
+    mysqli_stmt_bind_param($stmt, "s", implode($image, ","));
     /* execute query */
     if(mysqli_stmt_execute($stmt))
     {

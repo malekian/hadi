@@ -11,8 +11,8 @@
 <?php
 if((isset($_POST["submit"]))&&(!empty($_FILES['fileToUpload'])) ){
 foreach($_FILES['fileToUpload']['name'] as $key => $name){
- $filename[] = $_FILES['fileToUpload']['name'][$key];
-	}
+	$filename[] = $_FILES['fileToUpload']['name'][$key];
+}
 echo implode($filename, ",");
 }
 ?>
