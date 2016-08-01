@@ -10,7 +10,11 @@
  * @param int $width
  * @param int $height
  */
-function resize($tmpname, $name, $width, $height){
+function resize($index, $width, $height){
+	$name = $_FILES['image']['name'][$index];
+	$tmpname = $_FILES['image']['tmp_name'][$index];
+	$type = $_FILES['image']['type'][$index];
+	
 	/* Get original image x y*/
 	list($w, $h) = getimagesize($tmpname);
 	/* calculate new image size with ratio */
@@ -31,7 +35,7 @@ function resize($tmpname, $name, $width, $height){
   	$width, $height,
   	$w, $h);
 	/* Save image */
-	switch ($_FILES['image']['type']) {
+	switch ($type) {
 		case 'image/jpeg':
 			imagejpeg($tmp, $path, 40);
 			break;
@@ -42,12 +46,12 @@ function resize($tmpname, $name, $width, $height){
 			imagegif($tmp, $path);
 			break;
 		default:
-			exit;
 			break;
 	}
-	return $path;
 	/* cleanup memory */
 	imagedestroy($image);
 	imagedestroy($tmp);
+	
+	return $path;
 }
 ?>

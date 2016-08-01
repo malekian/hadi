@@ -50,9 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				$ext = strtolower(pathinfo($image_name, PATHINFO_EXTENSION));
 				if (in_array($ext, $valid_exts)) {
 					// resize image
-					foreach ($sizes as $w => $h) {
-						$files[] = resize($image_path, $image_name, $w, $h);
-					}
+					$files = resize($index, 600, 600);
 				} else {
 					$msg = 'Unsupported file';
 				}
