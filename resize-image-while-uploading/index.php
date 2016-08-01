@@ -8,7 +8,7 @@
 include('function.php');
 
 // settings
-$max_file_size = 1024*200; // 200kb
+$max_file_size = 10240*2000; // 200kb
 $valid_exts = array('jpeg', 'jpg', 'png', 'gif');
 // thumbnail sizes
 $sizes = array(100 => 100, 150 => 150, 600 => 600);

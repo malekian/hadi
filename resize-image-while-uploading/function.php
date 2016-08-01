@@ -33,7 +33,7 @@ function resize($width, $height){
 	/* Save image */
 	switch ($_FILES['image']['type']) {
 		case 'image/jpeg':
-			imagejpeg($tmp, $path, 60);
+			imagejpeg($tmp, $path, 40);
 			break;
 		case 'image/png':
 			imagepng($tmp, $path, 0);
