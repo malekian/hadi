@@ -10,7 +10,7 @@
             <fieldset>
             <legend>upload your image</legend><br><br><br><br>
 		    <p dir="rtl"><label>iamge</label>
-	        <input type="file" name="image" ><br><br>
+	        <input type="file" name="image[]" multiple><br><br>
 			</fieldset>
 </div>
 <div>			
@@ -20,7 +20,6 @@
 </div>	
 </form>
 <?php
- error_reporting(0);
 $db_host="localhost";
 $db_user="root";
 $db_pass="";
@@ -58,6 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		$msg = 'Please upload image smaller than 200KB';
 	}
 }
+
 if(isset($_POST['submit'])){ 
 //insert to database
 if ($stmt = mysqli_prepare($connect, "INSERT INTO $db_table VALUES ('', ?)"))
@@ -67,7 +67,7 @@ if ($stmt = mysqli_prepare($connect, "INSERT INTO $db_table VALUES ('', ?)"))
     /* execute query */
     if(mysqli_stmt_execute($stmt))
     {
-echo"your image has been send successfully"
+echo"your image has been send successfully";
     }
     else
     {
