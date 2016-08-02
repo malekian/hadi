@@ -40,6 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	if(isset($_POST['image_data'])) {
 		$image_data_list = json_decode($_POST['image_data'], true);
 		
+		$msg = "OK";
 		foreach($image_data_list as $index => $image_data) {
 			$image_name = $image_data['name'];
 			$image_size = $image_data['size'];
@@ -71,17 +72,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			// execute query
 			if(mysqli_stmt_execute($stmt))
 			{	
-				$response = Array("status" => "OK");
-				echo json_encode($response);
+				$response = Array("status" => $msg);
 			}
 			else
 			{
-				echo "Error occurred: " . mysqli_error($connect);
+				$response = Array("status" => "Error", "error" => mysqli_error($connect));
 			}
+			echo json_encode($response);
 
 			// close statement
 			mysqli_stmt_close($stmt);
 		}
+	}
+	
+	if(isset($_POST['form_data'])) {
+		$form_data = json_decode($_POST['form_data'], true);
+		
+		$fname = $form_data['fname'];
+		$case1 = $form_data['case1'];
+		
+		echo $fname, $case1;
 	}
 } else {
 
@@ -185,10 +195,35 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <p dir="rtl"><input class="button-style submit" name="submit" type="submit" id="submit" value="Upload"></p>
       </fieldset>
     </div>
+	    First name: <input type="text" name="fname"><br>
+	case1
+<select name="case1">
+  <option value="">please select</option>
+  <option value="volvo">Volvo</option>
+  <option value="saab">Saab</option>
+  <option value="mercedes">Mercedes</option>
+  <option value="audi">Audi</option>
+</select>
   </form>
   <div id="note">
   </div>
   <script>
+  $.fn.serializeObject = function()
+{
+    var o = {};
+    var a = this.serializeArray();
+    $.each(a, function() {
+        if (o[this.name] !== undefined) {
+            if (!o[this.name].push) {
+                o[this.name] = [o[this.name]];
+            }
+            o[this.name].push(this.value || '');
+        } else {
+            o[this.name] = this.value || '';
+        }
+    });
+    return o;
+};
     window.onload = function () {
 		
 		var image_data = [];
@@ -199,18 +234,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			  type: "POST",
 			  url: window.location.href,
 			  data: {
-				  'image_data': JSON.stringify(image_data)
+				  'image_data': JSON.stringify(image_data),
+				  'form_data': JSON.stringify($("form").serializeObject)
 			  },
 			  success: (data) => {
+				  console.log(data);
 				  var response;
 				  try {
 						response = JSON.parse(data);
 						$("#result").empty();
 					  image_data = [];
-					  $("#note").text("Successfully uploaded pictures.");
+					  $("#note").text(response["status"]);
 					}
 					catch(err) {
-						document.write(data);
+						$("#note").text("Please pick at least one image.");
 					}
 			  }
 			});
@@ -281,17 +318,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
   </script>
-  
-  
-    First name: <input type="text" name="fname"><br>
-	case1
-<select>
-  <option value="">please select</option>
-  <option value="volvo">Volvo</option>
-  <option value="saab">Saab</option>
-  <option value="mercedes">Mercedes</option>
-  <option value="audi">Audi</option>
-</select>
 </body>
 
 </html>
