@@ -247,7 +247,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 					  $("#note").text(response["status"]);
 					}
 					catch(err) {
-						$("#note").text("Please pick at least one image.");
+						$("#note").text("An error occured. " + err);
 					}
 			  }
 			});
