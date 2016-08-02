@@ -37,6 +37,8 @@ function base64_to_jpeg($base64_string, $output_file) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+	$response = Array();
+	
 	if(isset($_POST['image_data'])) {
 		$image_data_list = json_decode($_POST['image_data'], true);
 		
@@ -72,13 +74,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			// execute query
 			if(mysqli_stmt_execute($stmt))
 			{	
-				$response = Array("status" => $msg);
+				$response["status"] = $msg;
 			}
 			else
 			{
-				$response = Array("status" => "error", "error" => mysqli_error($connect));
+				$response["status"] = "error";
+				$response["error"] = mysqli_error($connect);
 			}
-			echo json_encode($response);
 
 			// close statement
 			mysqli_stmt_close($stmt);
@@ -91,8 +93,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		$fname = $form_data['fname'];
 		$case1 = $form_data['case1'];
 		
-		echo $fname, $case1;
+		$response['fname'] = $fname;
+		$response['case1'] = $case1;
 	}
+	
+	echo json_encode($response);
 } else {
 
 ?>
@@ -235,7 +240,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			  url: window.location.href,
 			  data: {
 				  'image_data': JSON.stringify(image_data),
-				  'form_data': JSON.stringify($("form").serializeObject)
+				  'form_data': JSON.stringify($("form").serializeObject())
 			  },
 			  success: (data) => {
 				  var response;
