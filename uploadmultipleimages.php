@@ -272,10 +272,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
           for (var i = 0; i < files.length; i++) {
             var file = files[i];
-
+			
             //Only pics
-            if (!file.type.match('image'))
-              continue;
+            if (!file.type.match('image')) {
+				$("#note").text("Not an image. Only images allowed.");
+			} else if (file.size > 2000000) {
+				$("#note").text("Too big file. Only image size < 2MB allowed.");
+			}
 
             var picReader = new FileReader();
 
