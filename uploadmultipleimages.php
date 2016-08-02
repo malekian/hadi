@@ -76,7 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			}
 			else
 			{
-				$response = Array("status" => "Error", "error" => mysqli_error($connect));
+				$response = Array("status" => "error", "error" => mysqli_error($connect));
 			}
 			echo json_encode($response);
 
@@ -238,9 +238,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				  'form_data': JSON.stringify($("form").serializeObject)
 			  },
 			  success: (data) => {
-				  console.log(data);
 				  var response;
-				  try {
+				  if (data) {
+					  console.log(data);
+					  try {
 						response = JSON.parse(data);
 						$("#result").empty();
 					  image_data = [];
@@ -249,6 +250,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 					catch(err) {
 						$("#note").text("An error occured. " + err);
 					}
+				  } else {
+					  console.log("Got empty response.")
+					  $("#note").text("Image too big to process. Please upload images < 200kb.");
+				  }
+				  
 			  }
 			});
 		});
