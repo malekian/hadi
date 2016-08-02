@@ -18,6 +18,13 @@ $valid_exts = array('jpeg', 'jpg', 'png', 'gif');
 // thumbnail sizes
 $sizes = array( 600 => 600);
 
+if (!file_exists('tmp/')) {
+    mkdir('tmp/', 0777, true);
+}
+if (!file_exists('photo/')) {
+    mkdir('photo/', 0777, true);
+}
+
 function base64_to_jpeg($base64_string, $output_file) {
     $ifp = fopen($output_file, "wb"); 
 
@@ -195,12 +202,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				  'image_data': JSON.stringify(image_data)
 			  },
 			  success: (data) => {
-				  response = JSON.parse(data);
-				  if (response && response["status"] == "OK") {
-					  $("#result").empty();
+				  var response;
+				  try {
+						response = JSON.parse(data);
+						$("#result").empty();
 					  image_data = [];
 					  $("#note").text("Successfully uploaded pictures.");
-				  }
+					}
+					catch(err) {
+						document.write(data);
+					}
 			  }
 			});
 		});
