@@ -36,7 +36,7 @@ function resize($name, $tmpname, $type, $width, $height){
 			imagejpeg($tmp, $path, 40);
 			break;
 		case 'image/png':
-			imagepng($tmp, $path, 0);
+			imagepng($tmp, $path, 9);
 			break;
 		case 'image/gif':
 			imagegif($tmp, $path);

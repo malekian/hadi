@@ -13,7 +13,7 @@ if(mysqli_connect_errno()){
 include('function.php');
 
 // settings
-$max_file_size = 10240*2000; // 200kb
+$max_file_size = 2000000; // 2MB
 $valid_exts = array('jpeg', 'jpg', 'png', 'gif');
 // thumbnail sizes
 $sizes = array( 600 => 600);
@@ -240,15 +240,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			  success: (data) => {
 				  var response;
 				  if (data) {
-					  console.log(data);
+					  
 					  try {
+						  console.log(data);
 						response = JSON.parse(data);
 						$("#result").empty();
 					  image_data = [];
 					  $("#note").text(response["status"]);
 					}
 					catch(err) {
-						$("#note").text("An error occured. " + err);
+						console.log(err);
+						$("#note").text("An error occured.");
 					}
 				  } else {
 					  console.log("Got empty response.")
@@ -276,8 +278,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             //Only pics
             if (!file.type.match('image')) {
 				$("#note").text("Not an image. Only images allowed.");
+				continue;
 			} else if (file.size > 2000000) {
 				$("#note").text("Too big file. Only image size < 2MB allowed.");
+				continue;
 			}
 
             var picReader = new FileReader();
