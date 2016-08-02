@@ -196,8 +196,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			  },
 			  success: (data) => {
 				  response = JSON.parse(data);
-				  if (response["status"] == "OK") {
+				  if (response && response["status"] == "OK") {
 					  $("#result").empty();
+					  image_data = [];
 					  $("#note").text("Successfully uploaded pictures.");
 				  }
 			  }
@@ -244,6 +245,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				  output.insertBefore(div, null);
 				  div.querySelector("button")
 					.addEventListener("click", function (event) {
+						for (var i = 0; i < image_data.length; i++) {
+							if ($(div).find("img").attr("src") == image_data[i]["base64"]) {
+								image_data.splice(i, 1);
+							}
+						}
+						
 					  div.parentNode.removeChild(div);
 					});
 
