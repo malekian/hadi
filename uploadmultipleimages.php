@@ -1,6 +1,87 @@
+<?php
+$db_host="localhost";
+$db_user="root";
+$db_pass="";
+$db_name="realestate";
+$db_table="upload";
+$connect = mysqli_connect("$db_host", "$db_user", "$db_pass", "$db_name");
+mysqli_query($connect,"SET NAMES 'utf8'");
+mysqli_query($connect,"SET character_set_connection='utf8'");
+if(mysqli_connect_errno()){
+	die("unable to connect".mysqli_connect_errno());
+}
+include('function.php');
+
+// settings
+$max_file_size = 10240*2000; // 200kb
+$valid_exts = array('jpeg', 'jpg', 'png', 'gif');
+// thumbnail sizes
+$sizes = array( 600 => 600);
+
+function base64_to_jpeg($base64_string, $output_file) {
+    $ifp = fopen($output_file, "wb"); 
+
+    $data = explode(',', $base64_string);
+
+    fwrite($ifp, base64_decode($data[1])); 
+    fclose($ifp); 
+
+    return $output_file; 
+}
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+	if(isset($_POST['image_data'])) {
+		$image_data_list = json_decode($_POST['image_data'], true);
+		
+		foreach($image_data_list as $index => $image_data) {
+			$image_name = $image_data['name'];
+			$image_size = $image_data['size'];
+			$image_type = $image_data['type'];
+			$image_base64 = $image_data['base64'];
+			
+			$image_path = base64_to_jpeg($image_base64, "tmp/" . $image_name);
+			
+			if ($image_size < $max_file_size) {
+				$image[] = addslashes($image_name);
+				$ext = strtolower(pathinfo($image_name, PATHINFO_EXTENSION));
+				if (in_array($ext, $valid_exts)) {
+					// resize image
+					$files = resize($image_name, $image_path, $image_type, 600, 600);
+				} else {
+					$msg = 'Unsupported file';
+				}
+			} else {
+				$msg = 'Please upload image smaller than 200KB';
+			}
+			
+			unlink($image_path);
+		}
+		
+		if ($stmt = mysqli_prepare($connect, "INSERT INTO $db_table VALUES ('', ?)")) {
+			// bind parameters for markers
+			$image_names = implode($image, ",");
+			mysqli_stmt_bind_param($stmt, "s", $image_names);
+			// execute query
+			if(mysqli_stmt_execute($stmt))
+			{	
+				$response = Array("status" => "OK");
+				echo json_encode($response);
+			}
+			else
+			{
+				echo "Error occurred: " . mysqli_error($connect);
+			}
+
+			// close statement
+			mysqli_stmt_close($stmt);
+		}
+	}
+} else {
+
+?>
+
 <!doctype html>
 <html>
-
 <head>
   <meta charset="utf-8">
   <title>upload multiple image</title>
@@ -66,6 +147,10 @@
       color: white;
       border-radius: 3px 3px 0px 0px;
     }
+	
+	#note {
+		color: green;
+	}
   </style>
   <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
 </head>
@@ -94,6 +179,8 @@
       </fieldset>
     </div>
   </form>
+  <div id="note">
+  </div>
   <script>
     window.onload = function () {
 		
@@ -108,7 +195,11 @@
 				  'image_data': JSON.stringify(image_data)
 			  },
 			  success: (data) => {
-				  //console.log(data);
+				  response = JSON.parse(data);
+				  if (response["status"] == "OK") {
+					  $("#result").empty();
+					  $("#note").text("Successfully uploaded pictures.");
+				  }
 			  }
 			});
 		});
@@ -126,7 +217,6 @@
 
           for (var i = 0; i < files.length; i++) {
             var file = files[i];
-			console.log(file);
 
             //Only pics
             if (!file.type.match('image'))
@@ -142,8 +232,6 @@
 						'type': file.type,
 						'base64': event.target.result
 					});
-					
-					console.log(file);
 					
 				  var picFile = event.target;
 				  var div = template_div.cloneNode(true);
@@ -178,86 +266,9 @@
 </body>
 
 </html>
+
 <?php
-$db_host="localhost";
-$db_user="root";
-$db_pass="";
-$db_name="realestate";
-$db_table="upload";
-$connect = mysqli_connect("$db_host", "$db_user", "$db_pass", "$db_name");
-mysqli_query($connect,"SET NAMES 'utf8'");
-mysqli_query($connect,"SET character_set_connection='utf8'");
-if(mysqli_connect_errno()){
-	die("unable to connect".mysqli_connect_errno());
-}
-include('function.php');
 
-// settings
-$max_file_size = 10240*2000; // 200kb
-$valid_exts = array('jpeg', 'jpg', 'png', 'gif');
-// thumbnail sizes
-$sizes = array( 600 => 600);
-
-function base64_to_jpeg($base64_string, $output_file) {
-    $ifp = fopen($output_file, "wb"); 
-
-    $data = explode(',', $base64_string);
-
-    fwrite($ifp, base64_decode($data[1])); 
-    fclose($ifp); 
-
-    return $output_file; 
-}
-
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-	if(isset($_POST['image_data'])) {
-		$image_data_list = json_decode($_POST['image_data'], true);
-		print_r($image_data_list);
-		
-		foreach($image_data_list as $index => $image_data) {
-			$image_name = $image_data['name'];
-			$image_size = $image_data['size'];
-			$image_type = $image_data['type'];
-			$image_base64 = $image_data['base64'];
-			
-			echo $image_name;
-			
-			$image_path = base64_to_jpeg($image_base64, "tmp/" . $image_name);
-			
-			if ($image_size < $max_file_size) {
-				$image[] = addslashes($image_name);
-				$ext = strtolower(pathinfo($image_name, PATHINFO_EXTENSION));
-				if (in_array($ext, $valid_exts)) {
-					// resize image
-					$files = resize($image_name, $image_path, $image_type, 600, 600);
-				} else {
-					$msg = 'Unsupported file';
-				}
-			} else {
-				$msg = 'Please upload image smaller than 200KB';
-			}
-			
-			unlink($image_path);
-		}
-		
-		if ($stmt = mysqli_prepare($connect, "INSERT INTO $db_table VALUES ('', ?)")) {
-			// bind parameters for markers
-			$image_names = implode($image, ",");
-			mysqli_stmt_bind_param($stmt, "s", $image_names);
-			// execute query
-			if(mysqli_stmt_execute($stmt))
-			{
-				echo"your image has been send successfully";
-			}
-			else
-			{
-				echo "Error occurred: " . mysqli_error($connect);
-			}
-
-			// close statement
-			mysqli_stmt_close($stmt);
-		}
-	}
 }
 
 /*
